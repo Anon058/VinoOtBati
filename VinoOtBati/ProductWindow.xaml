@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:VinoOtBati"
         mc:Ignorable="d"
-        Title="Просмотр товаров" Height="450" Width="800" FontFamily="Pacifico" Background="#F3E5F5 " Foreground="#7B1FA2"
+        Title="Просмотр товаров" Height="450" Width="825" FontFamily="Pacifico" Background="#F3E5F5 " Foreground="#7B1FA2"
         WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>
@@ -31,16 +31,22 @@
                                 <Run Text="{Binding Brands.BrandName}" FontFamily="Pacifico" FontSize="14" />
                             </TextBlock>
                             <TextBlock Margin="0,0,0,5">
-                            <Run Text="Цена: " FontFamily="Pacifico"/>
+                            </TextBlock>
+                            <TextBlock Margin="5,0,0,0" Visibility="{Binding Discount}">
                             <Run Text="{Binding PricePerUnit}" FontSize="14" FontFamily="Pacifico"/>
-                                    <Run Text="₽" FontSize="14"/>
+                            <Run Text="₽" FontSize="14"/>
                             </TextBlock>
                         </StackPanel>
                         <StackPanel Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Right">
                             <TextBlock Margin="500,0,0,0">
-                                <Run Text="Скидка:" FontSize="14" FontFamily="Pacifico"/>
-                                <Run Text="{Binding OrderDetails.OrderID}" FontSize="14" FontFamily="Pacifico"/>
-                                <Run Text="%" FontFamily="Pacifico" FontSize="14"/>
+                            <Run Text="Скидка:" FontSize="14" FontFamily="Pacifico"/>
+                            <Run Text="{Binding Discount}" FontFamily="Pacifico" FontSize="14"/>
+                            <Run Text="%" FontFamily="Pacifico" FontSize="14"/>
+                            </TextBlock>
+                            <TextBlock Margin="500,0,10,0">
+                            <Run Text="Цена со скидкой:" FontSize="14" FontFamily="Pacifico"/>
+                            <Run Text="{Binding DiscountedPrice}" FontFamily="Pacifico" FontSize="14"/>
+                            <Run Text="₽" FontSize="14"/>
                             </TextBlock>
                         </StackPanel>
                     </Grid>
