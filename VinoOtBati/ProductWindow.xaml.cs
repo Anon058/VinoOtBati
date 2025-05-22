@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -17,13 +19,45 @@ namespace VinoOtBati
     /// <summary>
     /// Логика взаимодействия для ProductWindow.xaml
     /// </summary>
+    /// 
+
     public partial class ProductWindow : Window
     {
         DBEntities db = new DBEntities();
+        private List<Products> products;
+        private string currentSort = "";
+
         public ProductWindow(string username)
         {
             InitializeComponent();
             personListView.ItemsSource = db.Products.ToList();
+
+            products = db.Products.ToList();
+
+            var orderDetails = db.OrderDetails.ToList();
+            var orders = db.Orders.ToList();
+            decimal partnerTotalSales = orderDetails.Sum(od => od.Products.PricePerUnit);
+            decimal maxSalesThreshold = orders.Sum(o => o.TotalCost);
+
+            foreach (var product in products)
+            {
+                product.Discount = CalculateDiscount(partnerTotalSales, maxSalesThreshold);
+                product.DiscountedPrice = product.PricePerUnit * (1 - product.Discount / 100);
+            }
+
+            personListView.ItemsSource = products;
+
+            BrandCombo.Items.Add("Все бренды");
+            foreach (var brand in db.Brands.ToList())
+                BrandCombo.Items.Add(brand.BrandName);
+            BrandCombo.SelectedIndex = 0;
+
+            CategoryCombo.Items.Add("Все категории");
+            foreach (var category in db.Categories.ToList())
+                CategoryCombo.Items.Add(category.CategoryName);
+            CategoryCombo.SelectedIndex = 0;
+
+
             if (string.IsNullOrEmpty(username))
             {
                 WelcomeText.Text = "Вы вошли как гость";
@@ -35,15 +69,75 @@ namespace VinoOtBati
                 Title = $"Просмотр товаров ({username})";
             }
         }
+        private decimal CalculateDiscount(decimal totalSales, decimal maxSales)
+        {
+            if (totalSales < maxSales / 4) return 0;
+            if (totalSales < maxSales / 2) return 5;
+            if (totalSales < (3 * maxSales) / 4) return 10;
+            return 15;
+        }
+
         private void dataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(e.AddedItems.Count > 0)
+            if (e.AddedItems.Count > 0)
             {
                 Products products = (Products)e.AddedItems[0];
 
                 string ProductName = products.ProductName;
 
             }
+        }
+        private void BrandCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (BrandCombo.SelectedIndex == 0)
+                personListView.ItemsSource = products;
+            else
+                personListView.ItemsSource = products.Where(p => p.Brands.BrandName == BrandCombo.SelectedItem.ToString()).ToList();
+
+        }
+
+        private void UpdateProducts()
+        {
+            if (products == null) return;
+
+            var filtered = products.AsQueryable();
+
+            if (BrandCombo.SelectedIndex > 0)
+                filtered = filtered.Where(p => p.Brands.BrandName == BrandCombo.SelectedItem.ToString());
+
+            if (CategoryCombo.SelectedIndex > 0)
+                filtered = filtered.Where(p => p.Categories.CategoryName == CategoryCombo.SelectedItem.ToString());
+
+            if (!string.IsNullOrEmpty(SearchBox.Text))
+                filtered = filtered.Where(p => p.ProductName.Contains(SearchBox.Text));
+
+            if (currentSort == "asc")
+                filtered = filtered.OrderBy(p => p.PricePerUnit);
+            else if (currentSort == "desc")
+                filtered = filtered.OrderByDescending(p => p.PricePerUnit);
+
+            personListView.ItemsSource = filtered.ToList();
+            CountText.Text = $"{filtered.Count()} из {products.Count}";
+        }
+
+        private void CategoryCombo_SelectionChanged(object sender, SelectionChangedEventArgs e) => UpdateProducts();
+        private void SearchBox_TextChanged(object sender, TextChangedEventArgs e) => UpdateProducts();
+
+        private void SortAsc_Click(object sender, RoutedEventArgs e)
+        {
+            currentSort = "asc";
+            UpdateProducts();
+        }
+
+        private void SortDesc_Click(object sender, RoutedEventArgs e)
+        {
+            currentSort = "desc";
+            UpdateProducts();
+        }
+
+        private void CategoryCombo_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }
