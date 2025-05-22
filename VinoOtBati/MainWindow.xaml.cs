@@ -62,6 +62,7 @@ namespace VinoOtBati
 
             _blockTimer = new DispatcherTimer();
             _blockTimer.Interval = TimeSpan.FromSeconds(1);
+
             _blockTimer.Tick += (s, e) =>
             {
                 _secondsRemaining--;
