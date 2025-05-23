@@ -7,11 +7,15 @@
         mc:Ignorable="d"
         Title="Просмотр товаров" Height="450" Width="825" FontFamily="Pacifico" Background="#F3E5F5 " Foreground="#7B1FA2"
         WindowStartupLocation="CenterScreen">
-    <Grid>
+
+    <Grid >
+
+
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+    <Frame x:Name="MainFrame" />
 
         <TextBlock x:Name="WelcomeText" Grid.Row="0" FontSize="16" Margin="0,-51,10,71" HorizontalAlignment="Right"/>
         <TextBlock x:Name="CountText" Grid.Row="1" Margin="10" HorizontalAlignment="Left"/>
@@ -21,8 +25,10 @@
             <TextBox x:Name="SearchBox" Width="200" Height="20" VerticalAlignment="Top" Margin="0,0,10,0" TextChanged="SearchBox_TextChanged"/>
             <Button Content="По возрастанию" Click="SortAsc_Click" Height="20" VerticalAlignment="Top" Margin="0,0,10,0"/>
             <Button Content="По убыванию" Height="20" VerticalAlignment="Top" Click="SortDesc_Click"/>
+            <Button Content="корзина" Height="20" VerticalAlignment="Top" Click="Button_Click" Margin="10,0,10,0"/>
         </StackPanel>
-        <ListView Name="personListView" Background="#F3E5F5" Foreground="#7B1FA2" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="0,30,-43,0" Grid.Row="1">
+        <ListView x:Name="ProductsListView" Background="#F3E5F5" Foreground="#7B1FA2" 
+          d:ItemsSource="{d:SampleData ItemCount=5}" Margin="0,30,-43,0" Grid.Row="1" MouseRightButtonDown="personListView_MouseRightButtonDown">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Grid>
@@ -62,4 +68,9 @@
             </ListView.ItemTemplate>
         </ListView>
     </Grid>
+        <Window.ContextMenu>
+            <ContextMenu x:Name="ProductContextMenu">
+                <MenuItem Header="Добавить к заказу" Click="AddToOrder_Click"/>
+            </ContextMenu>
+        </Window.ContextMenu>
 </Window>

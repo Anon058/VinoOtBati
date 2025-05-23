@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.Remoting.Contexts;
@@ -12,6 +13,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace VinoOtBati
@@ -27,12 +29,18 @@ namespace VinoOtBati
         private List<Products> products;
         private string currentSort = "";
 
+        private ObservableCollection<Products> orderItems = new ObservableCollection<Products>();
+        private Button viewOrderButton;
+
         public ProductWindow(string username)
         {
             InitializeComponent();
-            personListView.ItemsSource = db.Products.ToList();
+            ProductsListView.ItemsSource = db.Products.ToList();
 
             products = db.Products.ToList();
+
+            viewOrderButton = new Button { Content = "Просмотр заказа", Visibility = Visibility.Hidden };
+            viewOrderButton.Click += ViewOrderButton_Click;
 
             var orderDetails = db.OrderDetails.ToList();
             var orders = db.Orders.ToList();
@@ -45,7 +53,7 @@ namespace VinoOtBati
                 product.DiscountedPrice = product.PricePerUnit * (1 - product.Discount / 100);
             }
 
-            personListView.ItemsSource = products;
+            ProductsListView.ItemsSource = products;
 
             BrandCombo.Items.Add("Все бренды");
             foreach (var brand in db.Brands.ToList())
@@ -69,6 +77,29 @@ namespace VinoOtBati
                 Title = $"Просмотр товаров ({username})";
             }
         }
+        private void personListView_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (ProductsListView.SelectedItem != null)
+            {
+                ProductContextMenu.IsOpen = true;
+            }
+        }
+        private void AddToOrder_Click(object sender, RoutedEventArgs e)
+        {
+            if (ProductsListView.SelectedItem is Products selectedProduct)
+            {
+                orderItems.Add(selectedProduct);
+                UpdateOrderButtonVisibility();
+            }
+        }
+        private void UpdateOrderButtonVisibility()
+        {
+            viewOrderButton.Visibility = orderItems.Count > 0 ? Visibility.Visible : Visibility.Hidden;
+        }
+        private void ViewOrderButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Navigate(new OrderWindow(orderItems));
+        }
         private decimal CalculateDiscount(decimal totalSales, decimal maxSales)
         {
             if (totalSales < maxSales / 4) return 0;
@@ -90,9 +121,9 @@ namespace VinoOtBati
         private void BrandCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (BrandCombo.SelectedIndex == 0)
-                personListView.ItemsSource = products;
+                ProductsListView.ItemsSource = products;
             else
-                personListView.ItemsSource = products.Where(p => p.Brands.BrandName == BrandCombo.SelectedItem.ToString()).ToList();
+                ProductsListView.ItemsSource = products.Where(p => p.Brands.BrandName == BrandCombo.SelectedItem.ToString()).ToList();
 
         }
 
@@ -116,7 +147,7 @@ namespace VinoOtBati
             else if (currentSort == "desc")
                 filtered = filtered.OrderByDescending(p => p.PricePerUnit);
 
-            personListView.ItemsSource = filtered.ToList();
+            ProductsListView.ItemsSource = filtered.ToList();
             CountText.Text = $"{filtered.Count()} из {products.Count}";
         }
 
@@ -138,6 +169,11 @@ namespace VinoOtBati
         private void CategoryCombo_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
         {
 
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Navigate(new OrderWindow(orderItems));
         }
     }
 }
