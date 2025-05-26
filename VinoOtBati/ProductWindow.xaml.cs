@@ -44,12 +44,12 @@ namespace VinoOtBati
 
             var orderDetails = db.OrderDetails.ToList();
             var orders = db.Orders.ToList();
-            decimal partnerTotalSales = orderDetails.Sum(od => od.Products.PricePerUnit);
-            decimal maxSalesThreshold = orders.Sum(o => o.TotalCost);
+            decimal totalSales = orderDetails.Sum(od => od.Quantity * od.Products.PricePerUnit);
+            decimal maxSales = orders.Sum(o => o.TotalCost);
 
             foreach (var product in products)
             {
-                product.Discount = CalculateDiscount(partnerTotalSales, maxSalesThreshold);
+                product.Discount = CalculateDiscount(maxSales, totalSales);
                 product.DiscountedPrice = product.PricePerUnit * (1 - product.Discount / 100);
             }
 
@@ -100,7 +100,7 @@ namespace VinoOtBati
         {
             MainFrame.Navigate(new OrderWindow(orderItems));
         }
-        private decimal CalculateDiscount(decimal totalSales, decimal maxSales)
+        private decimal CalculateDiscount(decimal maxSales, decimal totalSales)
         {
             if (totalSales < maxSales / 4) return 0;
             if (totalSales < maxSales / 2) return 5;
