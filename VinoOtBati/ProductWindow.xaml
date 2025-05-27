@@ -22,15 +22,15 @@
         </Grid.RowDefinitions>
         <Frame x:Name="MainFrame" Grid.ColumnSpan="3" />
 
-        <TextBlock x:Name="WelcomeText" Foreground="#7B1FA2 " FontSize="16" Margin="250,-6,99,0" VerticalAlignment="Top" Height="29" RenderTransformOrigin="0.5,0.512" Grid.Column="1" Grid.ColumnSpan="2"/>
+        <TextBlock x:Name="WelcomeText" Foreground="#7B1FA2 " FontSize="16" Margin="250,0,99,0" VerticalAlignment="Top" Height="29" RenderTransformOrigin="0.5,0.512" Grid.Column="1" Grid.ColumnSpan="2"/>
         <TextBlock x:Name="CountText" Grid.Row="1" Margin="10,10,0,10" HorizontalAlignment="Left" Width="0"/>
         <StackPanel Orientation="Horizontal" Margin="10,16,10,30" Grid.RowSpan="2" Grid.ColumnSpan="3" >
-            <ComboBox x:Name="BrandCombo" Background="#F3E5F5" Foreground="#7B1FA2 " Width="150" Height="20" VerticalAlignment="Top" Margin="0,0,10,0"/>
+            <ComboBox x:Name="BrandCombo" Background="#F3E5F5" Foreground="#7B1FA2 " Width="150" Height="20" VerticalAlignment="Top" Margin="0,0,10,0" SelectionChanged="BrandCombo_SelectionChanged_1"/>
             <ComboBox x:Name="CategoryCombo" Background="#F3E5F5" Foreground="#7B1FA2 " Width="150" Height="20" VerticalAlignment="Top" Margin="0,0,10,0" SelectionChanged="CategoryCombo_SelectionChanged_1"/>
             <TextBox x:Name="SearchBox" Background="#F3E5F5" Foreground="#7B1FA2 " Width="200" Height="20" VerticalAlignment="Top" Margin="0,0,10,0" TextChanged="SearchBox_TextChanged"/>
             <Button Content="По возрастанию" Background="#F3E5F5" Foreground="#7B1FA2 " Click="SortAsc_Click" Height="20" VerticalAlignment="Top" Margin="0,0,10,0"/>
             <Button Content="По убыванию" Background="#F3E5F5" Foreground="#7B1FA2 " Height="20" VerticalAlignment="Top" Click="SortDesc_Click"/>
-            <Button Content="корзина" Background="#F3E5F5" Foreground="#7B1FA2 " Height="20" VerticalAlignment="Top" Click="Button_Click" Margin="10,0,10,0"/>
+            <Button x:Name="basket" Content="корзина" Background="#F3E5F5" Foreground="#7B1FA2 " Height="20" VerticalAlignment="Top" Click="Button_Click" Margin="10,0,10,0"/>
         </StackPanel>
         <ListView x:Name="ProductsListView" Background="#F3E5F5" Foreground="#7B1FA2" 
           d:ItemsSource="{d:SampleData ItemCount=5}" Margin="0,19,-43,0" MouseRightButtonDown="personListView_MouseRightButtonDown" Grid.Row="1" Grid.ColumnSpan="3">

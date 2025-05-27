@@ -22,7 +22,6 @@ namespace VinoOtBati
     /// </summary>
     public partial class MainWindow : Window
     {
-        private bool _isBlocked = false;
         private int _secondsRemaining = 10;
         private DispatcherTimer _blockTimer;
         DBEntities db = new DBEntities();
@@ -36,7 +35,6 @@ namespace VinoOtBati
         }
         private void GenerateNewCaptcha()
         {
-            // Генерация случайной капчи из 4 символов (буквы и цифры)
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
             char[] captcha = new char[4];
 
@@ -56,7 +54,6 @@ namespace VinoOtBati
         }
         private void BlockSystem()
         {
-            _isBlocked = true;
             btnLogin.IsEnabled = false;
             _secondsRemaining = 10;
 
@@ -70,7 +67,6 @@ namespace VinoOtBati
                 if (_secondsRemaining <= 0)
                 {
                     _blockTimer.Stop();
-                    _isBlocked = false;
                     btnLogin.IsEnabled = true;
                     count = 0;
                 }
@@ -81,10 +77,8 @@ namespace VinoOtBati
         {
             string captchaInput = CaptchaInput.Text;
 
-            if(count == 3)
+            if(count == 2)
             {
-                
-                    
                     BlockSystem();
                     MessageBox.Show("Слишком много неудачных попыток. Система заблокирована на 10 секунд.",
                                   "Блокировка",
@@ -92,25 +86,21 @@ namespace VinoOtBati
                                   MessageBoxImage.Warning);
                 
             }
-            if (_isBlocked)
-            {
-                MessageBox.Show($"Система заблокирована. Попробуйте через {_secondsRemaining} секунд.",
-                               "Блокировка",
-                               MessageBoxButton.OK,
-                               MessageBoxImage.Warning);
-                return;
-            }
+            var enter = db.Users.FirstOrDefault(x => x.UserName == UsernameTextBox.Text && x.Password == PasswordBox.Password);
 
             if (captchaInput != currentCaptcha)
             {
                 count++; 
+                if(count <= 2)
+                {
+
                 MessageBox.Show("Неверная капча! Попробуйте снова.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 GenerateNewCaptcha();
                 return;
+                }
             }
-            var enter = db.Users.FirstOrDefault(x => x.UserName == UsernameTextBox.Text && x.Password == PasswordBox.Password);
 
-            if (enter == null)
+            else if (enter == null)
             {
                 MessageBox.Show("Такого пользователя нет!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }

@@ -30,7 +30,6 @@ namespace VinoOtBati
         private string currentSort = "";
 
         private ObservableCollection<Products> orderItems = new ObservableCollection<Products>();
-        private Button viewOrderButton;
 
         public ProductWindow(string username)
         {
@@ -38,9 +37,6 @@ namespace VinoOtBati
             ProductsListView.ItemsSource = db.Products.ToList();
 
             products = db.Products.ToList();
-
-            viewOrderButton = new Button { Content = "Просмотр заказа", Visibility = Visibility.Hidden };
-            viewOrderButton.Click += ViewOrderButton_Click;
 
             var orderDetails = db.OrderDetails.ToList();
             var orders = db.Orders.ToList();
@@ -89,13 +85,10 @@ namespace VinoOtBati
             if (ProductsListView.SelectedItem is Products selectedProduct)
             {
                 orderItems.Add(selectedProduct);
-                UpdateOrderButtonVisibility();
             }
         }
-        private void UpdateOrderButtonVisibility()
-        {
-            viewOrderButton.Visibility = orderItems.Count > 0 ? Visibility.Visible : Visibility.Hidden;
-        }
+   
+        
         private void ViewOrderButton_Click(object sender, RoutedEventArgs e)
         {
             MainFrame.Navigate(new OrderWindow(orderItems));
@@ -124,7 +117,7 @@ namespace VinoOtBati
                 ProductsListView.ItemsSource = products;
             else
                 ProductsListView.ItemsSource = products.Where(p => p.Brands.BrandName == BrandCombo.SelectedItem.ToString()).ToList();
-
+            UpdateProducts();
         }
 
         private void UpdateProducts()
@@ -151,8 +144,11 @@ namespace VinoOtBati
             CountText.Text = $"{filtered.Count()} из {products.Count}";
         }
 
-        private void CategoryCombo_SelectionChanged(object sender, SelectionChangedEventArgs e) => UpdateProducts();
-        private void SearchBox_TextChanged(object sender, TextChangedEventArgs e) => UpdateProducts();
+        
+        private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            UpdateProducts();
+        }
 
         private void SortAsc_Click(object sender, RoutedEventArgs e)
         {
@@ -168,12 +164,21 @@ namespace VinoOtBati
 
         private void CategoryCombo_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
         {
-
+            UpdateProducts();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             MainFrame.Navigate(new OrderWindow(orderItems));
+        }
+
+        private void BrandCombo_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
+        {
+            if (BrandCombo.SelectedIndex == 0)
+                ProductsListView.ItemsSource = products;
+            else
+                ProductsListView.ItemsSource = products.Where(p => p.Brands.BrandName == BrandCombo.SelectedItem.ToString()).ToList();
+            UpdateProducts();
         }
     }
 }
