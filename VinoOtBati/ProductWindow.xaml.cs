@@ -28,6 +28,7 @@ namespace VinoOtBati
         DBEntities db = new DBEntities();
         private List<Products> products;
         private string currentSort = "";
+        public string username;
 
         private ObservableCollection<Products> orderItems = new ObservableCollection<Products>();
 
@@ -35,7 +36,7 @@ namespace VinoOtBati
         {
             InitializeComponent();
             ProductsListView.ItemsSource = db.Products.ToList();
-
+            this.username = username;
             products = db.Products.ToList();
 
             var orderDetails = db.OrderDetails.ToList();

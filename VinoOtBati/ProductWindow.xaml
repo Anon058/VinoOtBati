@@ -23,7 +23,7 @@
         <Frame x:Name="MainFrame" Grid.ColumnSpan="3" />
 
         <TextBlock x:Name="WelcomeText" Foreground="#7B1FA2 " FontSize="16" Margin="250,0,99,0" VerticalAlignment="Top" Height="29" RenderTransformOrigin="0.5,0.512" Grid.Column="1" Grid.ColumnSpan="2"/>
-        <TextBlock x:Name="CountText" Grid.Row="1" Margin="10,10,0,10" HorizontalAlignment="Left" Width="0"/>
+        <TextBlock x:Name="CountText" Grid.Row="1" Margin="13,6,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="65" Height="13" FontWeight="Bold" Visibility="Visible"/>
         <StackPanel Orientation="Horizontal" Margin="10,16,10,30" Grid.RowSpan="2" Grid.ColumnSpan="3" >
             <ComboBox x:Name="BrandCombo" Background="#F3E5F5" Foreground="#7B1FA2 " Width="150" Height="20" VerticalAlignment="Top" Margin="0,0,10,0" SelectionChanged="BrandCombo_SelectionChanged_1"/>
             <ComboBox x:Name="CategoryCombo" Background="#F3E5F5" Foreground="#7B1FA2 " Width="150" Height="20" VerticalAlignment="Top" Margin="0,0,10,0" SelectionChanged="CategoryCombo_SelectionChanged_1"/>
