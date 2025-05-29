@@ -44,11 +44,21 @@ namespace VinoOtBati
             decimal totalSales = orderDetails.Sum(od => od.Quantity * od.Products.PricePerUnit);
             decimal maxSales = orders.Sum(o => o.TotalCost);
 
-            foreach (var product in products)
+            var user = db.Users.FirstOrDefault(u => u.UserName == username);
+            if (user != null && (user.RoleID == 3 || user.RoleID == 2)) 
             {
-                product.Discount = CalculateDiscount(maxSales, totalSales);
-                product.DiscountedPrice = product.PricePerUnit * (1 - product.Discount / 100);
+                ManagerOrdersBtn.Visibility = Visibility.Visible;
             }
+            else
+            {
+                ManagerOrdersBtn.Visibility = Visibility.Collapsed;
+            }
+
+                foreach (var product in products)
+                {
+                    product.Discount = CalculateDiscount(maxSales, totalSales);
+                    product.DiscountedPrice = product.PricePerUnit * (1 - product.Discount / 100);
+                }
 
             ProductsListView.ItemsSource = products;
 
@@ -73,6 +83,12 @@ namespace VinoOtBati
                 WelcomeText.Text = $"Добро пожаловать, {username}!";
                 Title = $"Просмотр товаров ({username})";
             }
+        }
+        private void ManagerOrdersBtn_Click(object sender, RoutedEventArgs e)
+        {
+            var ordersWindow = new ManagerOrdersWindow();
+            ordersWindow.ShowDialog();
+            //this.Close();
         }
         private void personListView_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
