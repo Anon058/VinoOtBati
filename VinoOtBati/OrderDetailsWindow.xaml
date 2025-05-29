@@ -17,14 +17,14 @@
 
         <StackPanel Grid.Row="1" Orientation="Horizontal">
             <TextBlock Text="Дата: " FontWeight="Bold"/>
-            <TextBlock Text="{Binding OrderDate, StringFormat={}{0:dd.MM.yyyy}}"/>
+            <TextBlock Text="{Binding DateOfOrder, StringFormat={}{0:dd.MM.yyyy}}"/>
         </StackPanel>
 
         <StackPanel Grid.Row="2" Orientation="Horizontal">
             <TextBlock Text="Клиент: " FontWeight="Bold"/>
-            <TextBlock Text="{Binding Users.FullName}"/>
+            <TextBlock Text="{Binding Users.UserName}"/>
             <TextBlock Text=", Телефон: " FontWeight="Bold" Margin="10,0,0,0"/>
-            <TextBlock Text="{Binding Users.Phone}"/>
+            <TextBlock Text="{Binding Users.Number}"/>
         </StackPanel>
 
         <DataGrid Grid.Row="3" ItemsSource="{Binding OrderDetails}" 
@@ -33,7 +33,7 @@
                 <DataGridTextColumn Header="Товар" Binding="{Binding Products.ProductName}" Width="*"/>
                 <DataGridTextColumn Header="Количество" Binding="{Binding Quantity}" Width="Auto"/>
                 <DataGridTextColumn Header="Цена" Binding="{Binding Products.PricePerUnit, StringFormat={}{0:C}}" Width="Auto"/>
-                <DataGridTextColumn Header="Сумма" Binding="{Binding TotalPrice, StringFormat={}{0:C}}" Width="Auto"/>
+                <DataGridTextColumn x:Name="TotalCostText" Header="Сумма" Width="Auto"/>
             </DataGrid.Columns>
         </DataGrid>
 

@@ -11,8 +11,8 @@
                  Background="#F3E5F5" Foreground="#7B1FA2">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Номер" Binding="{Binding OrderID}" Width="Auto"/>
-                <DataGridTextColumn Header="Дата" Binding="{Binding OrderDate, StringFormat={}{0:dd.MM.yyyy}}" Width="Auto"/>
-                <DataGridTextColumn Header="Клиент" Binding="{Binding Users.FullName}" Width="*"/>
+                <DataGridTextColumn Header="Дата" Binding="{Binding DateOfOrder, StringFormat={}{0:dd.MM.yyyy}}" Width="Auto"/>
+                <DataGridTextColumn Header="Клиент" Binding="{Binding Users.UserName}" Width="*"/>
                 <DataGridTextColumn Header="Сумма" Binding="{Binding TotalCost, StringFormat={}{0:C}}" Width="Auto"/>
                 <DataGridTemplateColumn Header="Состав" Width="Auto">
                     <DataGridTemplateColumn.CellTemplate>
