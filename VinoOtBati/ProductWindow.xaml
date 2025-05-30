@@ -50,27 +50,33 @@
                                 <Run Text="Бренд: " FontFamily="Pacifico"/>
                                 <Run Text="{Binding Brands.BrandName}" FontFamily="Pacifico" FontSize="14" />
                             </TextBlock>
+                            <TextBlock Visibility ="Hidden"  x:Name="Supplier" Margin="0,0,500,-20" FontSize="14" FontFamily="Pacifico">
+                                <Run Text="Поставщик: "/>
+                                <Run Text="{Binding Suppliers.SupplierName}"/>
+                            </TextBlock>
                             <TextBlock Margin="0,0,0,5">
                             </TextBlock>
                             <TextBlock Margin="5,0,0,0" >
                                 <Run Text="Цена:" FontSize="14" FontFamily="Pacifico"/>
-                            <Run Text="{Binding PricePerUnit}" TextDecorations="Strikethrough" FontSize="14" FontFamily="Pacifico"/>
-                            <Run Text="₽" FontSize="14"/>
+                                <Run Text="{Binding PricePerUnit}" TextDecorations="Strikethrough" FontSize="14" FontFamily="Pacifico"/>
+                                <Run Text="₽" FontSize="14"/>
                             </TextBlock>
                         </StackPanel>
                         <StackPanel Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Right">
                             <TextBlock Margin="500,0,0,0">
-                            <Run Text="Скидка:" FontSize="14" FontFamily="Pacifico"/>
-                            <Run Text="{Binding Discount}" FontFamily="Pacifico" FontSize="14"/>
-                            <Run Text="%" FontFamily="Pacifico" FontSize="14"/>
+                                <Run Text="Скидка:" FontSize="14" FontFamily="Pacifico"/>
+                                <Run Text="{Binding Discount}" FontFamily="Pacifico" FontSize="14"/>
+                                <Run Text="%" FontFamily="Pacifico" FontSize="14"/>
                             </TextBlock>
                             <TextBlock Margin="500,0,10,0">
-                            <Run Text="Цена со скидкой:" FontSize="14" FontFamily="Pacifico"/>
-                            <Run Text="{Binding DiscountedPrice}" FontFamily="Pacifico" FontSize="14"/>
-                            <Run Text="₽" FontSize="14"/>
+                                <Run Text="Цена со скидкой:" FontSize="14" FontFamily="Pacifico"/>
+                                <Run Text="{Binding DiscountedPrice}" FontFamily="Pacifico" FontSize="14"/>
+                                <Run Text="₽" FontSize="14"/>
                             </TextBlock>
-                                <TextBlock x:Name="warehouse" Text="Наличие на складе: " FontSize="14" FontFamily="Pacifico" Margin="500,0,20,0" Visibility="Hidden"/>
-                            <TextBlock Text="{Binding StockQuantity}" FontFamily="Pacifico" FontSize="14"  Margin="600,-17,20,0" Visibility="Hidden"/>
+                            <TextBlock x:Name="warehouse" FontSize="14" FontFamily="Pacifico" Visibility="Hidden" Margin="500,0,20,0">
+                                <Run Text="Наличие на складе: "/>
+                                <Run Text="{Binding StockQuantity}"/>
+                            </TextBlock>
                         </StackPanel>
                     </Grid>
                 </DataTemplate>
