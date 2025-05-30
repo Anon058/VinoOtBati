@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
@@ -51,23 +52,8 @@ namespace VinoOtBati
             {
                 ManagerOrdersBtn.Visibility = Visibility.Visible;
 
-                foreach(var item in ProductsListView.Items)
-    {
-                    // Получаем ListViewItem для текущего элемента
-                    var listViewItem = (ListViewItem)ProductsListView.ItemContainerGenerator.ContainerFromItem(item);
-
-                    if (listViewItem != null)
-                    {
-                        // Находим TextBlock Supplier внутри ListViewItem
-                        var supplierTextBlock = FindVisualChild<TextBlock>(listViewItem, "Supplier");
-                        if (supplierTextBlock != null)
-                        {
-                            // Устанавливаем видимость в Visible
-                            supplierTextBlock.Visibility = Visibility.Visible;
-                        }
-                    }
-                }
-                //warehouse.Visibility = Visibility.Visible;
+                //ProductsListView.Supplier.Visibility = Visibility.Visible;
+                //war.Visibility = Visibility.Visible;
                 foreach (var product in products)
                 {
                     //product.StockQuantity.Visibility = Visibility.Visible;
@@ -110,23 +96,7 @@ namespace VinoOtBati
                 Title = $"Просмотр товаров ({username})";
             }
         }
-        private T FindVisualChild<T>(DependencyObject parent, string childName) where T : DependencyObject
-        {
-            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
-            {
-                var child = VisualTreeHelper.GetChild(parent, i);
-                if (child is T typedChild && ((FrameworkElement)child).Name == childName)
-                {
-                    return typedChild;
-                }
-                var childOfChild = FindVisualChild<T>(child, childName);
-                if (childOfChild != null)
-                {
-                    return childOfChild;
-                }
-            }
-            return null;
-        }
+        
         private void ManagerOrdersBtn_Click(object sender, RoutedEventArgs e)
         {
             var ordersWindow = new ManagerOrdersWindow();

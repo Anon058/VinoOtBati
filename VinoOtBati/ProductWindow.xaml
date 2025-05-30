@@ -50,7 +50,7 @@
                                 <Run Text="Бренд: " FontFamily="Pacifico"/>
                                 <Run Text="{Binding Brands.BrandName}" FontFamily="Pacifico" FontSize="14" />
                             </TextBlock>
-                            <TextBlock Visibility ="Hidden"  x:Name="Supplier" Margin="0,0,500,-20" FontSize="14" FontFamily="Pacifico">
+                            <TextBlock Visibility="Hidden" x:Name="Supplier" Margin="0,0,500,-20" FontSize="14" FontFamily="Pacifico">
                                 <Run Text="Поставщик: "/>
                                 <Run Text="{Binding Suppliers.SupplierName}"/>
                             </TextBlock>
@@ -73,7 +73,7 @@
                                 <Run Text="{Binding DiscountedPrice}" FontFamily="Pacifico" FontSize="14"/>
                                 <Run Text="₽" FontSize="14"/>
                             </TextBlock>
-                            <TextBlock x:Name="warehouse" FontSize="14" FontFamily="Pacifico" Visibility="Hidden" Margin="500,0,20,0">
+                            <TextBlock Visibility="Hidden" Name="war" FontSize="14" FontFamily="Pacifico" Margin="500,0,20,0">
                                 <Run Text="Наличие на складе: "/>
                                 <Run Text="{Binding StockQuantity}"/>
                             </TextBlock>
