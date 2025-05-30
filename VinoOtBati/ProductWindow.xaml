@@ -69,6 +69,8 @@
                             <Run Text="{Binding DiscountedPrice}" FontFamily="Pacifico" FontSize="14"/>
                             <Run Text="₽" FontSize="14"/>
                             </TextBlock>
+                                <TextBlock x:Name="warehouse" Text="Наличие на складе: " FontSize="14" FontFamily="Pacifico" Margin="500,0,20,0" Visibility="Hidden"/>
+                            <TextBlock Text="{Binding StockQuantity}" FontFamily="Pacifico" FontSize="14"  Margin="600,-17,20,0" Visibility="Hidden"/>
                         </StackPanel>
                     </Grid>
                 </DataTemplate>

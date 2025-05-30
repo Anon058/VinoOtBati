@@ -25,6 +25,7 @@ namespace VinoOtBati
         }
         public decimal Discount { get; set; } 
         public decimal DiscountedPrice { get; set; }
+        public string StockQuantity { get; set; }
         public int ProductID { get; set; }
         public string ProductName { get; set; }
         public int CategoryID { get; set; }

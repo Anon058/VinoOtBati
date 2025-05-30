@@ -32,12 +32,14 @@ namespace VinoOtBati
 
         private ObservableCollection<Products> orderItems = new ObservableCollection<Products>();
 
+        private Random random = new Random();
         public ProductWindow(string username)
         {
             InitializeComponent();
             ProductsListView.ItemsSource = db.Products.ToList();
             this.username = username;
             products = db.Products.ToList();
+
 
             var orderDetails = db.OrderDetails.ToList();
             var orders = db.Orders.ToList();
@@ -48,11 +50,18 @@ namespace VinoOtBati
             if (user != null && (user.RoleID == 3 || user.RoleID == 2)) 
             {
                 ManagerOrdersBtn.Visibility = Visibility.Visible;
+                //warehouse.Visibility = Visibility.Visible;
+                foreach (var product in products)
+                {
+                    //product.StockQuantity.Visibility = Visibility.Visible;
+                    product.StockQuantity = random.Next(1, 51).ToString();
+                }
             }
             else
             {
                 ManagerOrdersBtn.Visibility = Visibility.Collapsed;
             }
+
 
                 foreach (var product in products)
                 {
