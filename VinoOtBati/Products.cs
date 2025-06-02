@@ -11,15 +11,21 @@ namespace VinoOtBati
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.Linq;
+    using System.Windows.Media;
+    using System.Windows.Media.Imaging;
+
     public partial class Products
     {
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Products()
         {
             this.OrderDetails = new HashSet<OrderDetails>();
         }
-    
+        public decimal Discount { get; set; } 
+        public decimal DiscountedPrice { get; set; }
+        public string StockQuantity { get; set; }
         public int ProductID { get; set; }
         public string ProductName { get; set; }
         public int CategoryID { get; set; }
